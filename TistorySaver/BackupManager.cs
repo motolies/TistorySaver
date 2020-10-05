@@ -95,11 +95,16 @@ namespace TistorySaver
                 {
                     await BackupResources(client, path, pageId, "img", doc,
                         "//img", "src", "filename");
-                    await BackupResources(client, path, pageId, "attachment", doc,
-                        "//a[contains(@href,\'tistory.com/attachment/\')]", "href");
-                }
 
+                    // 첨부파일에 대한 정규식은 나는 도메인을 별도로 지정했기 때문에 아래와 같이 수정한다.
+                    //await BackupResources(client, path, pageId, "attachment", doc, "//a[contains(@href,\'tistory.com/attachment/\')]", "href");
+                    await BackupResources(client, path, pageId, "attachment", doc,
+                        "//a[contains(@href,\'motolies.com/attachment/\')]", "href");
+                }
                 content = doc.DocumentNode.OuterHtml;
+
+                // 이미지는 base64로 변하도록 하는건 여기에서 할 수 있다
+
             }
             catch (Exception e)
             {
@@ -427,7 +432,7 @@ namespace TistorySaver
                 path = Path.Combine(Root, "ts_미분류", pageId);
             }
 
-            if(Directory.Exists(path) == false)
+            if (Directory.Exists(path) == false)
             {
                 Directory.CreateDirectory(path);
             }
